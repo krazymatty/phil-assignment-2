@@ -12,48 +12,48 @@ public class Assignment2Application {
 		int numberOfGuesses = 5;
 
 		// Application variables
-		int numberOfGuessesRemaining = numberOfGuesses - 1;
-		int tries = numberOfGuessesRemaining + 1;
+		int numberOfGuessesRemaining = numberOfGuesses;
+		
 		Random random = new Random();
 		int randomNumber = 1 + random.nextInt(max);
+		System.out.println(randomNumber);
 
 		// Gets user inputs
-		System.out.println("Pick a number between " + min + " and " + max + ": \"You have " + tries + " chances\"");
 		Scanner scan = new Scanner(System.in);
 
 		// Run program if user has guesses.
-		while (numberOfGuessesRemaining >= 0) {
-
-			int userInput = Integer.parseInt(scan.next());
-
-			// Checks if the user correctly guesses the number on the last guess!
-			if (numberOfGuessesRemaining == 0) {
-				if (userInput == randomNumber) {
-					System.out.println("You Win!");
-					break;
-				}
-				System.out.println("You lose, the number to guess was: " + randomNumber);
-				System.out.println("............GAME OVER...............");
-				break;
+		int userInput = 0;
+		while (numberOfGuessesRemaining > 0) {
+			if (numberOfGuessesRemaining == 5) {
+			System.out.println("Pick a number between " + min + " and " + max + ":");
 			}
+			userInput = Integer.parseInt(scan.next());
+
+			// Validate
+			if (userInput < min || userInput > max) {
+				// System.out.println("Pick a number between 1 and " + max + ":");
+				continue;
+			}
+
 			// Checks if the user guess the correct number.
 			if (userInput == randomNumber) {
 				System.out.println("You Win!");
 				break;
-			}
-			// Checks the result of the users input and also makes sure it's not out of bounds.
-			if (userInput < randomNumber && userInput <= max && userInput >= min) {
-				System.out.println("Please pick a higher number.");
-				numberOfGuessesRemaining = numberOfGuessesRemaining - 1;
-
-			} else if (userInput > randomNumber && userInput <= max && userInput >= min) {
-				numberOfGuessesRemaining = numberOfGuessesRemaining - 1;
-				System.out.println("Please pick a lower number.");
-
 			} else {
-				System.out.println("Pick a number bewtween 1 and " + max + ":");
+				// Checks the result of the users input 
+				if (userInput < randomNumber) {
+					System.out.println("Please pick a higher number.");
 
+				} else if (userInput > randomNumber) {
+					System.out.println("Please pick a lower number.");
+
+				}
 			}
+			numberOfGuessesRemaining--;
+		} // Checks if the user correctly guesses the number on the last guess!
+		if (numberOfGuessesRemaining == 0 && userInput != randomNumber) {
+			System.out.println("You lose, the number to guess was: " + randomNumber);
+			System.out.println("............GAME OVER...............");
 		}
 		scan.close();
 	}
